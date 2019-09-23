@@ -3,7 +3,7 @@ import { NormalizeError } from "../exceptions";
 export class ProviderResponse {
     public entities : Normalizable[] = [];
 
-    prepare(attributes? : string[]) {
+    prepare(attributes? : string[]) : any[] {
         // Normalize all entities first
         let normalizedEntities = this.entities.map((entity) => entity.normalize(attributes));
         if(attributes === undefined)
