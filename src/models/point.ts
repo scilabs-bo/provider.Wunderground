@@ -1,4 +1,5 @@
 import { Normalizable } from "./context";
+import { ValueError } from "../exceptions";
 
 export class Point implements Normalizable {
     private _latitude : number = 0;
@@ -10,7 +11,7 @@ export class Point implements Normalizable {
     }
     set latitude(value : number) {
         if(value < -90 || value > 90)
-            throw new Error("Unable to set value due to invalid latitude value. Valid latitude range is -90 ... 90.");
+            throw new ValueError("Unable to set value due to invalid latitude value. Valid latitude range is -90 ... 90.");
         this._latitude = value;
     }
     get longitude() : number {
@@ -18,7 +19,7 @@ export class Point implements Normalizable {
     }
     set longitude(value : number) {
         if(value < -180 || value > 180)
-            throw new Error("Unable to set value due to invalid longitude value. Valid longitude range is -180 ... 180.");
+            throw new ValueError("Unable to set value due to invalid longitude value. Valid longitude range is -180 ... 180.");
         this._longitude = value;
     }
 

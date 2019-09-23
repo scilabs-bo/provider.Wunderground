@@ -1,5 +1,6 @@
 import { Point } from "./point";
 import { Normalizable } from "./context";
+import { ValueError } from "../exceptions";
 
 // https://github.com/smart-data-models/dataModel.Weather/blob/master/WeatherObserved/doc/spec.md
 export class WeatherObserved implements Normalizable {
@@ -32,7 +33,7 @@ export class WeatherObserved implements Normalizable {
     }
     set location(value : Point | undefined) {
         if(value === undefined && this._address === undefined)
-            throw new Error("If address is undefined the location property is mandatory.");
+            throw new ValueError("If address is undefined the location property is mandatory.");
         this._location = value;
     }
     get address() : string | undefined {
@@ -40,7 +41,7 @@ export class WeatherObserved implements Normalizable {
     }
     set address(value : string | undefined) {
         if(value === undefined && this._location === undefined)
-            throw new Error("If location is undefined the address property is mandatory.");
+            throw new ValueError("If location is undefined the address property is mandatory.");
         this._address = value;
     }
     get relativeHumidity() : number | undefined {
@@ -48,7 +49,7 @@ export class WeatherObserved implements Normalizable {
     }
     set relativeHumidity(value : number | undefined) {
         if(value !== undefined && (value < 0 || value > 1))
-            throw new Error(`Relative humidity must be a number between 0 and 1. This is not the case for value '${value}'.`);
+            throw new ValueError(`Relative humidity must be a number between 0 and 1. This is not the case for value '${value}'.`);
         this._relativeHumidity = value;
     }
     get windDirection() : number | undefined {
@@ -56,7 +57,7 @@ export class WeatherObserved implements Normalizable {
     }
     set windDirection(value : number | undefined) {
         if(value !== undefined && (value < 0 || value >= 360))
-            throw new Error(`Wind direction is measured in decimal degrees. The value '${value}' is either in another unit or not modulo reduced.`);
+            throw new ValueError(`Wind direction is measured in decimal degrees. The value '${value}' is either in another unit or not modulo reduced.`);
         this._windDirection = value;
     }
 

@@ -68,7 +68,7 @@ export class Observation {
 
     toWeatherObserved() : WeatherObserved {
         let weatherObserved = new WeatherObserved(
-            this.stationID, 
+            `urn:ngsi-ld:WeatherObserved:${this.stationID}`, 
             this.observationTime || new Date(), 
             new Point(this.latitude || 0, this.longitude || 0, this.elevation || 0)
         );

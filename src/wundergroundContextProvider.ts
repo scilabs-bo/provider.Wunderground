@@ -1,87 +1,80 @@
 import express, { Response, Request } from 'express';
 import Debug from 'debug';
 import { getCurrentConditions } from './wunderground';
-import { ProviderResponse, ContextResponse } from './models/context';
+import { ProviderResponse } from './models/context';
+import { NormalizeError, ValueError } from './exceptions';
 
 // Setup debug for logging and default router
 const debug = Debug('provider:router');
 
 async function handleContextRequest(req : Request, res : Response) {
     debug("Received a new request to the queryContext endpoint to deliver %o", req.body.attributes);
-    // TODO: Make sure body is NGSIv1 conforming
+    // TODO: Make sure body is NGSIv2 conforming
     let response = new ProviderResponse();
-    for(let i = 0; i < req.body.entities.length; i++) {
-        let contextResponse = new ContextResponse();
-        try {
-            // Mirror id, type and isPattern from entity
-            contextResponse.contextElement.id = req.body.entities[i].id;
-            contextResponse.contextElement.isPattern = req.body.entities[i].isPattern;
-            contextResponse.contextElement.type = req.body.entities[i].type;
-            if(contextResponse.contextElement.type !== "WeatherObserved") {
-                // This context provider only supports WeatherObserved type
-                debug("Unable to serve context element of type '%s'. Only type 'WeatherObserved' is supported", contextResponse.contextElement.type);
-                contextResponse.statusCode = { code: "400", reasonPhrase: "Invalid context element type caught, only 'WeatherObserved' is supported by this provider" };
-                continue;
-            }
-            // By default a context request will be successful
-            contextResponse.statusCode = { code: "200", reasonPhrase: "OK" };
-
-            // Expected id format: urn:ngsi-ld:WeatherObserved:<Station ID>
-            let stationId = req.body.entities[i].id.split(':')[3];
-            try {
-                let observation = await getCurrentConditions(stationId);
-                let normalizedWeatherObserved = observation.toWeatherObserved().normalize();
-                for(let j = 0; j < req.body.attributes.length; j++) {
-                    if(normalizedWeatherObserved[req.body.attributes[j]] === undefined) {
-                        // Attribute not defined
-                        debug("Attribute '%s' is not defined on given instance of WeatherObserved (index %d)", req.body.attributes[j], i);
-                        continue;
-                    }
-                    contextResponse.contextElement.attributes.push({
-                        name: req.body.attributes[j],
-                        ...normalizedWeatherObserved[req.body.attributes[j]]
-                    });
-                }
-            }
-            catch(e) {
-                if(e instanceof Error) {
-                    debug("Encountered common error while processing context request for station id '%s'", stationId)
-                    // Common error (Network, parsing, or something else)
-                    contextResponse.statusCode = {
-                        code: "503", // Service Unavailable
-                        reasonPhrase: e.message
-                    }
-                }
-                else if(e.msg !== undefined) {
-                    debug("Encountered API error while processing context request for station id '%s'", stationId)
-                    // API error
-                    contextResponse.statusCode = {
-                        code: e.code.toString(),
-                        reasonPhrase: e.msg
-                    };
-                }
-                else {
-                    debug("Encountered unknown error while processing context request for station id '%s'", stationId)
-                    // Unknown error
-                    contextResponse.statusCode = {
-                        code: "500",
-                        reasonPhrase: "Encountered unknown error while processing context element"
-                    };
-                }
-                debug("%O", e)
-            }
+    for(let i = 0, entity = req.body.entities[0]; i < req.body.entities.length; i++, entity = req.body.entities[i]) {
+        if(entity.type !== "WeatherObserved") {
+            // This context provider only supports WeatherObserved type
+            debug("Unable to serve context element of type '%s'. Only type 'WeatherObserved' is supported", entity.type);
+            return res.status(400).end();
         }
-        finally {
-            response.contextResponses.push(contextResponse);
+
+        // Expected id format: urn:ngsi-ld:WeatherObserved:<Station ID>
+        let stationId = entity.id.split(':')[3];
+        try {
+            let observation = await getCurrentConditions(stationId);
+            let weatherObserved = observation.toWeatherObserved();
+            response.entities.push(weatherObserved);
+        }
+        catch(e) {
+            if(e instanceof ValueError) {
+                // Value error thrown by models
+                debug("Encountered value error while parsing api data for station id '%s'", stationId);
+                debug("%O", e);
+                return res.status(503).end();
+            }
+            else if(e instanceof Error) {
+                // Common error (Network?)
+                debug("Encountered common error while processing query for station id '%s'", stationId);
+                debug("%O", e);
+                return res.status(503).end();
+            }
+            else if(e.msg !== undefined) {
+                // API error
+                debug("Encountered API error while processing query for station id '%s'", stationId);
+                debug("%O", e);
+                return res.status(e.code).end();
+            }
+            else {
+                // Unknown error
+                debug("Encountered unknown error while processing query for station id '%s'", stationId);
+                debug("%O", e);
+                return res.status(500).end();
+            }
         }
     }
+
     // Send response back to context broker
-    res.json(response);
+    try {
+        let preparedResponse = response.prepare(req.body.attrs);
+        return res.json(preparedResponse);
+    }
+    catch(e) {
+        if(e instanceof NormalizeError) {
+            debug("Encountered error while normalizing provider response");
+            debug("%O", e);
+            return res.status(400).end();
+        }
+        else {
+            debug("Encountered unknown error while normalizing and sending provider response");
+            debug("%O", e);
+            return res.status(500).end();
+        }
+    }
 }
 
 var router = express.Router();
-// Requests will contain NGSIv1 payloads in JSON format, therefore we need to parse the body using the express.json middleware
+// Requests will contain NGSIv2 payloads in JSON format, therefore we need to parse the body using the express.json middleware
 router.use(express.json());
-router.post('/queryContext', handleContextRequest);
+router.post('/op/query', handleContextRequest);
 
 export default router;
