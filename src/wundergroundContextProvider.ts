@@ -19,6 +19,7 @@ async function handleContextRequest(req : Request, res : Response) {
         // By default a context request will be successful
         contextResponse.statusCode = { code: "200", reasonPhrase: "OK" };
 
+        // Expected id format: urn:ngsi-ld:WeatherObserved:<Station ID>
         let stationId = req.body.entities[i].id.split(':')[3];
         try {
             let observation = await getCurrentConditions(stationId);
