@@ -24,3 +24,7 @@ export class StatusCode {
     public code : string = "";
     public reasonPhrase : string = "";
 }
+
+export interface Normalizable {
+    normalize() : object;
+}
