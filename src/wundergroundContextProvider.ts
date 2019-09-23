@@ -8,7 +8,7 @@ import { NormalizeError, ValueError } from './exceptions';
 const debug = Debug('provider:router');
 
 async function handleContextRequest(req : Request, res : Response) {
-    debug("Received a new request to the queryContext endpoint to deliver %o", req.body.attributes);
+    debug("Received a new request to the queryContext endpoint to deliver %o", req.body.attrs || "everything");
     // TODO: Make sure body is NGSIv2 conforming
     let response = new ProviderResponse();
     for(let i = 0, entity = req.body.entities[0]; i < req.body.entities.length; i++, entity = req.body.entities[i]) {
