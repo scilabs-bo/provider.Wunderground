@@ -27,7 +27,7 @@ let config = convict({
     port: {
         doc: 'Context provider port',
         format: 'port',
-        default: 80,
+        default: 3000,
         env: 'PROVIDER_PORT'
     }
 });
