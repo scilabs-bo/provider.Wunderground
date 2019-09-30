@@ -1,6 +1,7 @@
 # Ignore git files
 .git
 .gitignore
+Readme.md
 # Ignore pre-downloaded node_modules
 node_modules
 # Ignore pre-build files
