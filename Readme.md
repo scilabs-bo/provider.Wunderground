@@ -15,8 +15,9 @@ docker run -d --name wunderground -e DEBUG=provider:* -e PROVIDER_WUNDERGROUND_A
 
 ## Environment variables
 The context provider is configured using environment variables. By default, only the `PROVIDER_WUNDERGROUND_API_KEY` is required to spin up an instance of the context provider on port 3000 with a cache expire time of one minute.
+
 | Key                           | Default Value | Description                                                               |
-| ----------------------------- |:-------------:|---------------------------------------------------------------------------|
+| ----------------------------- |:-------------:| ------------------------------------------------------------------------- |
 | PROVIDER_PORT                 | `3000`        | Port used by the context provider                                         |
 | PROVIDER_WUNDERGROUND_API_KEY | *none*        | Weather underground API key                                               |
 | PROVIDER_CACHE_ENABLED        | `true`        | Enables / Disables the caching mechanism (reduces API requests)           |
