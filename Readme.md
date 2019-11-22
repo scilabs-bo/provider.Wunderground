@@ -55,6 +55,7 @@ The following attributes can be queried from the context provider. Have a look a
 * `atmosphericPressure`
 * `dataProvider`
 * `dewPoint`
+* `location`
 * `precipitation`
 * `relativeHumidity`
 * `solarRadiation`
