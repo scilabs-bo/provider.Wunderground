@@ -1,4 +1,6 @@
-import { NormalizeError } from "../exceptions";
+import Debug from 'debug'
+
+const debug = Debug('provider:router');
 
 export class ProviderResponse {
     public entities : Normalizable[] = [];
@@ -20,8 +22,9 @@ export class ProviderResponse {
             for(let i = 0, attribute = attributes[i]; i < attributes.length; i++, attribute = attributes[i]) {
                 for(let j = 0; j < normalizedEntities.length; j++) {
                     if(normalizedEntities[j][attribute] === undefined)
-                        throw new NormalizeError(`Attribute ${attribute} is not defined on entity`)
-                    reducedEntities[j][attribute] = normalizedEntities[j][attribute];
+                        debug("Ignoring undefined requested attribute '%s' while normalizing object for the context broker", attribute);
+                    else
+                        reducedEntities[j][attribute] = normalizedEntities[j][attribute];
                 }
             }
             return reducedEntities;

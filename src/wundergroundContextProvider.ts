@@ -2,7 +2,7 @@ import express, { Response, Request } from 'express';
 import Debug from 'debug';
 import { getCurrentConditions } from './wunderground';
 import { ProviderResponse } from './models/context';
-import { NormalizeError, ValueError, WundergroundAPIError } from './exceptions';
+import { ValueError, WundergroundAPIError } from './exceptions';
 
 // Setup debug for logging and default router
 const debug = Debug('provider:router');
@@ -54,22 +54,8 @@ async function handleContextRequest(req : Request, res : Response) {
     }
 
     // Send response back to context broker
-    try {
-        let preparedResponse = response.prepare(req.body.attrs);
-        return res.json(preparedResponse);
-    }
-    catch(e) {
-        if(e instanceof NormalizeError) {
-            debug("Encountered error while normalizing provider response");
-            debug("%O", e);
-            return res.status(400).end();
-        }
-        else {
-            debug("Encountered unknown error while normalizing and sending provider response");
-            debug("%O", e);
-            return res.status(500).end();
-        }
-    }
+    let preparedResponse = response.prepare(req.body.attrs);
+    return res.json(preparedResponse);
 }
 
 var router = express.Router();
