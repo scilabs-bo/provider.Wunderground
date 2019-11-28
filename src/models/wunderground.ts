@@ -72,17 +72,17 @@ export class Observation {
             this.observationTime || new Date(), 
             new Point(this.longitude || 0, this.latitude || 0, this.elevation || 0)
         );
-        weatherObserved.dataProvider = new URL("https://www.wunderground.com");
+        weatherObserved.dataProvider = new URL("https://api.weather.com/v2/pws/observations/current");
 
         // Weather data
-        weatherObserved.dewPoint = this.dewPoint || undefined;
-        weatherObserved.temperature = this.temperature || undefined;
-        weatherObserved.relativeHumidity = this.humidity || undefined;
-        weatherObserved.precipitation = this.precipitationRate || undefined;
-        weatherObserved.windDirection = this.windDirection || undefined;
-        weatherObserved.windSpeed = this.windSpeed || undefined;
-        weatherObserved.atmosphericPressure = this.pressure || undefined;
-        weatherObserved.solarRadiation = this.solarRadiation || undefined;
+        weatherObserved.dewPoint = this.dewPoint !== null ? this.dewPoint : undefined;
+        weatherObserved.temperature = this.temperature !== null ? this.temperature : undefined;
+        weatherObserved.relativeHumidity = this.humidity !== null ? this.humidity : undefined;
+        weatherObserved.precipitation = this.precipitationRate !== null ? this.precipitationRate : undefined;
+        weatherObserved.windDirection = this.windDirection !== null ? this.windDirection : undefined;
+        weatherObserved.windSpeed = this.windSpeed !== null ? this.windSpeed : undefined;
+        weatherObserved.atmosphericPressure = this.pressure !== null ? this.pressure : undefined;
+        weatherObserved.solarRadiation = this.solarRadiation !== null ? this.solarRadiation : undefined;
 
         return weatherObserved;
     }
