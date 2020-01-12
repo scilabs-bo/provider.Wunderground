@@ -9,7 +9,7 @@ describe('Point model', () => {
     });
 
     it('should have the correct keys', () => {
-        expect(new Point(0, 0)).to.have.keys([ '_latitude', '_longitude', 'elevation' ]);
+        expect(new Point(0, 0)).to.have.all.keys([ '_latitude', '_longitude', 'elevation' ]);
     });
 
     it('should return the correct values', () => {
