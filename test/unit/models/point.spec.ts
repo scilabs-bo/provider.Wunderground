@@ -1,6 +1,6 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { Point } from './point';
+import { Point } from '../../../src/models/point';
 
 describe('Point model', () => {
 

@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
-import { WeatherObserved, WeatherType, Visibility, Tendency } from './weather';
-import { Point } from './point';
+import { WeatherObserved, WeatherType, Visibility, Tendency } from '../../../src/models/weather';
+import { Point } from '../../../src/models/point';
 
 describe('WeatherObserved model', () => {
 
