@@ -34,7 +34,7 @@ describe('Point model', () => {
             type: 'geo:json',
             value: {
                 type: 'Point',
-                coordinates: [1, 2]
+                coordinates: [2, 1]
             }
         });
     });
@@ -44,7 +44,7 @@ describe('Point model', () => {
             type: 'geo:json',
             value: {
                 type: 'Point',
-                coordinates: [1, 2, 3]
+                coordinates: [2, 1, 3]
             }
         });
     });

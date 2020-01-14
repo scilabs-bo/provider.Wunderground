@@ -43,7 +43,7 @@ describe('WeatherObserved model', () => {
         expect(() => w.windDirection = 361).to.throw(Error, /measured in decimal degrees/);
     });
 
-    it('should be normalized correctly', () => {
+    it('should normalize correctly', () => {
         let date = new Date();
         let w = new WeatherObserved('someId', date, new Point(1, 2, 3));
         w.dataProvider = new URL('http://example.com');
@@ -81,7 +81,7 @@ describe('WeatherObserved model', () => {
                 type: 'geo:json',
                 value: {
                     type: 'Point',
-                    coordinates: [1, 2, 3]
+                    coordinates: [2, 1, 3]
                 }
             },
             address: undefined,
