@@ -1,6 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { Point } from '../../../src/models/point';
+import { ValueError } from '../../../src/exceptions';
 
 describe('Point model', () => {
 
@@ -20,13 +21,13 @@ describe('Point model', () => {
     });
 
     it('should throw an error on invalid latitude', () => {
-        expect(() => new Point(-91, 0)).to.throw(Error, /Unable to set value/);
-        expect(() => new Point(91, 0)).to.throw(Error, /Unable to set value/);
+        expect(() => new Point(-91, 0)).to.throw(ValueError, /Unable to set value/);
+        expect(() => new Point(91, 0)).to.throw(ValueError, /Unable to set value/);
     });
 
     it('should throw an error on invalid longitude', () => {
-        expect(() => new Point(0, -181)).to.throw(Error, /Unable to set value/);
-        expect(() => new Point(0, 181)).to.throw(Error, /Unable to set value/);
+        expect(() => new Point(0, -181)).to.throw(ValueError, /Unable to set value/);
+        expect(() => new Point(0, 181)).to.throw(ValueError, /Unable to set value/);
     });
 
     it('should normalize correctly with elevation undefined', () => {

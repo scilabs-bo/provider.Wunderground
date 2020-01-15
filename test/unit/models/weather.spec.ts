@@ -2,6 +2,7 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { WeatherObserved, WeatherType, Visibility, Tendency } from '../../../src/models/weather';
 import { Point } from '../../../src/models/point';
+import { ValueError } from '../../../src/exceptions';
 
 describe('WeatherObserved model', () => {
 
@@ -20,27 +21,27 @@ describe('WeatherObserved model', () => {
     it('should enforce a location when address is undefined', () => {
         expect(
             () => new WeatherObserved('', new Date(), new Point(0, 0)).location = undefined
-        ).to.throw(Error, /address is undefined/);
+        ).to.throw(ValueError, /address is undefined/);
     });
 
     it('should enforce an address when location is undefined', () => {
         expect(
             () => new WeatherObserved('', new Date(), '').address = undefined
-        ).to.throw(Error, /location is undefined/);
+        ).to.throw(ValueError, /location is undefined/);
     });
 
     it('should throw an error on invalid relative humidity', () => {
         let w = new WeatherObserved('', new Date(), '');
         expect(() => w.relativeHumidity = 0.5).to.not.throw();
-        expect(() => w.relativeHumidity = -0.1).to.throw(Error, /must be a number between 0 and 1/);
-        expect(() => w.relativeHumidity = 1.1).to.throw(Error, /must be a number between 0 and 1/);
+        expect(() => w.relativeHumidity = -0.1).to.throw(ValueError, /must be a number between 0 and 1/);
+        expect(() => w.relativeHumidity = 1.1).to.throw(ValueError, /must be a number between 0 and 1/);
     });
 
     it('should throw an error on invalid wind direction', () => {
         let w = new WeatherObserved('', new Date(), '');
         expect(() => w.windDirection = 180).to.not.throw();
-        expect(() => w.windDirection = -1).to.throw(Error, /measured in decimal degrees/);
-        expect(() => w.windDirection = 361).to.throw(Error, /measured in decimal degrees/);
+        expect(() => w.windDirection = -1).to.throw(ValueError, /measured in decimal degrees/);
+        expect(() => w.windDirection = 361).to.throw(ValueError, /measured in decimal degrees/);
     });
 
     it('should normalize correctly', () => {
