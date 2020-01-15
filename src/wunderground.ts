@@ -24,11 +24,11 @@ export async function getCurrentConditions(stationId : string) : Promise<Observa
     const endpointUrl = constructEndpointUrl(stationId);
     get(endpointUrl, (res) => {
       if (res.statusCode !== 200) {
-        const error = new WundergroundAPIError(`Request to wunderground api failed with status code ${res.statusCode}`);
+        const error = new WundergroundAPIError(res.statusCode, `Request to wunderground api failed with status code ${res.statusCode}`);
         return reject(error);
       }
       if (!/^application\/json/.test(res.headers['content-type'] || '')) {
-        const error = new WundergroundAPIError(`The returned request does not contain json according to the content-type header: ${res.headers['content-type']}`);
+        const error = new WundergroundAPIError(res.statusCode, `The returned request does not contain json according to the content-type header: ${res.headers['content-type']}`);
         return reject(error);
       }
       // Response looks fine, receive response

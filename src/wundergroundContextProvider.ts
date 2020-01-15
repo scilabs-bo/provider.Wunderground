@@ -29,25 +29,31 @@ async function handleContextRequest(req : Request, res : Response) {
         // Value error thrown by models
         debug("Encountered value error while parsing api data for station id '%s'", stationId);
         debug('%O', e);
-        return res.status(503).end();
+        // The NGSIv2 specification does not contain any server-side http error codes - use 500 and set error to identify the error thrown
+        return res.status(500).json({ error: 'ValueError', description: 'Encoutered a value errror while parsing the API data for the requested station id' });
       }
       if (e instanceof WundergroundAPIError) {
+        if(e.statusCode === 404) {
+          debug("The provided station id '%s' does not exist", stationId);
+          debug('%O', e);
+          return res.status(404).json({ error: 'NotFound', description: 'The station id requested does not exist' });
+        }
         // API error
         debug("Encountered API error while processing query for station id '%s'", stationId);
         debug('%O', e);
-        return res.status(503).end();
+        return res.status(500).json({ error: 'APIError', description: 'Retrieving data from the API for the requested station id failed due to an invalid response from the API' });
       }
       if (e instanceof Error) {
         // Common error (Network?)
         debug("Encountered common error while processing query for station id '%s'", stationId);
         debug('%O', e);
-        return res.status(503).end();
+        return res.status(500).json({ error: 'NetworkError', description: 'Retrieving data from the API for the requested station id failed due to an network exception' });
       }
 
       // Unknown error
       debug("Encountered unknown error while processing query for station id '%s'", stationId);
       debug('%O', e);
-      return res.status(500).end();
+      return res.status(500).json({ error: 'UnknownError', description: 'The provider was unable to respond to the request due to an internal error' });
     }
   }
 
