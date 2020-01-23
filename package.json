@@ -4,11 +4,11 @@
   "description": "FIWARE context provider for the Weather Underground platform",
   "main": "dist/index.js",
   "scripts": {
-    "build": "node_modules/typescript/bin/tsc",
-    "build:watch": "node_modules/typescript/bin/tsc --watch",
-    "lint": "node_modules/eslint/bin/eslint.js -c ./.eslintrc.js ./src/**/*.ts",
-    "lint:fix": "node_modules/eslint/bin/eslint.js -c ./.eslintrc.js --fix ./src/**/*.ts",
-    "test": "node_modules/mocha/bin/mocha -r ts-node/register 'test/**/*.spec.ts'"
+    "build": "npx tsc",
+    "build:watch": "npx tsc --watch",
+    "lint": "npx eslint -c ./.eslintrc.js ./src/**/*.ts",
+    "lint:fix": "npx eslint -c ./.eslintrc.js --fix ./src/**/*.ts",
+    "test": "npx mocha -r ts-node/register 'test/**/*.spec.ts'"
   },
   "repository": {
     "type": "git",
