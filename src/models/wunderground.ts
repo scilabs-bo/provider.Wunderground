@@ -90,7 +90,7 @@ export class Observation {
       const weatherObserved = new WeatherObserved(
         `urn:ngsi-ld:WeatherObserved:${this.stationID}`,
         this.observationTime || new Date(),
-        new Point(this.longitude || 0, this.latitude || 0, this.elevation || 0),
+        new Point(this.latitude || 0, this.longitude || 0, this.elevation || 0),
       );
       weatherObserved.dataProvider = new URL('https://api.weather.com/v2/pws/observations/current');
 

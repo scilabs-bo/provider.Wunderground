@@ -38,8 +38,8 @@ export class Point implements Normalizable {
         value: {
           type: 'Point',
           coordinates: this.elevation === undefined
-            ? [this.latitude, this.longitude]
-            : [this.latitude, this.longitude, this.elevation],
+            ? [this.longitude, this.latitude]
+            : [this.longitude, this.latitude, this.elevation],
         },
       };
     }
