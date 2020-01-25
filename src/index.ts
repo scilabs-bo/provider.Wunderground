@@ -10,5 +10,5 @@ debug('Setting up context provider routes');
 app.use('/v2', wundergroundContextProvider);
 
 app.listen(config.get('port'), () => {
-  debug('Started context provider on port %d', config.get('port'));
+    debug('Started context provider on port %d', config.get('port'));
 });
