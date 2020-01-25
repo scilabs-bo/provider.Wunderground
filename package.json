@@ -1,6 +1,6 @@
 {
     "name": "provider.wunderground",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "FIWARE context provider for the Weather Underground platform",
     "main": "dist/index.js",
     "scripts": {
