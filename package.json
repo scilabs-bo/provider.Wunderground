@@ -1,52 +1,55 @@
 {
-  "name": "provider.wunderground",
-  "version": "1.0.2",
-  "description": "FIWARE context provider for the Weather Underground platform",
-  "main": "dist/index.js",
-  "scripts": {
-    "build": "npx tsc",
-    "build:watch": "npx tsc --watch",
-    "lint": "npx eslint -c ./.eslintrc.js ./src/**/*.ts",
-    "lint:fix": "npx eslint -c ./.eslintrc.js --fix ./src/**/*.ts",
-    "test": "npx mocha -r ts-node/register 'test/**/*.spec.ts'"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/smart-city-lab-2050/provider.Wunderground.git"
-  },
-  "keywords": [
-    "FIWARE",
-    "Context",
-    "Wunderground"
-  ],
-  "author": "Fabian Bäumer <fabian.baeumer@rub.de>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/smart-city-lab-2050/provider.Wunderground/issues"
-  },
-  "homepage": "https://github.com/smart-city-lab-2050/provider.Wunderground#readme",
-  "dependencies": {
-    "convict": "^5.2.0",
-    "debug": "^4.1.1",
-    "express": "^4.17.1"
-  },
-  "devDependencies": {
-    "@types/chai": "^4.2.7",
-    "@types/chai-http": "^4.2.0",
-    "@types/convict": "^4.2.1",
-    "@types/debug": "^4.1.5",
-    "@types/express": "^4.17.2",
-    "@types/mocha": "^5.2.7",
-    "@types/nock": "^11.1.0",
-    "@types/node": "^13.1.6",
-    "@typescript-eslint/eslint-plugin": "^2.15.0",
-    "@typescript-eslint/parser": "^2.15.0",
-    "chai": "^4.2.0",
-    "chai-http": "^4.3.0",
-    "eslint": "^6.8.0",
-    "mocha": "^7.0.0",
-    "nock": "^11.7.2",
-    "ts-node": "^8.6.1",
-    "typescript": "^3.7.4"
-  }
+    "name": "provider.wunderground",
+    "version": "1.0.2",
+    "description": "FIWARE context provider for the Weather Underground platform",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "npx tsc",
+        "build:watch": "npx tsc --watch",
+        "lint": "npx eslint -c ./.eslintrc.js ./src/**/*.ts",
+        "lint:fix": "npx eslint -c ./.eslintrc.js --fix ./src/**/*.ts",
+        "prettier": "npx prettier --write \"{src,test/unit}/**/*.ts\"",
+        "test": "npx mocha -r ts-node/register 'test/**/*.spec.ts'"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/smart-city-lab-2050/provider.Wunderground.git"
+    },
+    "keywords": [
+        "FIWARE",
+        "Context",
+        "Wunderground"
+    ],
+    "author": "Fabian Bäumer <fabian.baeumer@rub.de>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/smart-city-lab-2050/provider.Wunderground/issues"
+    },
+    "homepage": "https://github.com/smart-city-lab-2050/provider.Wunderground#readme",
+    "dependencies": {
+        "convict": "^5.2.0",
+        "debug": "^4.1.1",
+        "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.2.7",
+        "@types/chai-http": "^4.2.0",
+        "@types/convict": "^4.2.1",
+        "@types/debug": "^4.1.5",
+        "@types/express": "^4.17.2",
+        "@types/mocha": "^5.2.7",
+        "@types/nock": "^11.1.0",
+        "@types/node": "^13.1.6",
+        "@typescript-eslint/eslint-plugin": "^2.15.0",
+        "@typescript-eslint/parser": "^2.15.0",
+        "chai": "^4.2.0",
+        "chai-http": "^4.3.0",
+        "eslint": "^6.8.0",
+        "eslint-config-prettier": "^6.9.0",
+        "mocha": "^7.0.0",
+        "nock": "^11.7.2",
+        "prettier": "^1.19.1",
+        "ts-node": "^8.6.1",
+        "typescript": "^3.7.4"
+    }
 }
