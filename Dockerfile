@@ -1,4 +1,4 @@
-FROM node:12.13.1
+FROM node:12.14.1
 
 LABEL maintainer="Fabian Bäumer <fabian.baeumer@rub.de>"
 
