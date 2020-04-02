@@ -33,7 +33,7 @@ export async function getCurrentConditions(
             stationId,
         );
         const endpointUrl = constructEndpointUrl(stationId);
-        get(endpointUrl, res => {
+        get(endpointUrl, (res) => {
             if (res.statusCode !== 200) {
                 const error = new WundergroundAPIError(
                     res.statusCode,
@@ -51,7 +51,7 @@ export async function getCurrentConditions(
             // Response looks fine, receive response
             res.setEncoding('utf8');
             let rawData = '';
-            res.on('data', chunk => {
+            res.on('data', (chunk) => {
                 rawData += chunk;
             });
             res.on('end', () => {
@@ -74,7 +74,7 @@ export async function getCurrentConditions(
                     );
                 }
                 resolve(adaptedResponse.observations[0]);
-            }).on('error', e => {
+            }).on('error', (e) => {
                 reject(e);
             });
         });

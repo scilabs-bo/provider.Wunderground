@@ -30,7 +30,7 @@ describe('Wunderground context provider', () => {
         // Start the provider on port 3000 for further testing
         app = express();
         app.use('/v2', wundergroundContextProvider);
-        return new Promise(resolve => (server = app.listen(3000, resolve)));
+        return new Promise((resolve) => (server = app.listen(3000, resolve)));
     });
     after(() => {
         // Shut down the provider gracefully
@@ -49,12 +49,9 @@ describe('Wunderground context provider', () => {
     afterEach(nock.cleanAll);
 
     it('should respond to a request', async () => {
-        let res = await chai
-            .request(app)
-            .post('/v2/op/query')
-            .send({
-                entities: [],
-            });
+        let res = await chai.request(app).post('/v2/op/query').send({
+            entities: [],
+        });
         expect(res).to.have.status(200);
         expect(res).to.be.json;
         expect(res.body).to.be.instanceOf(Array);
@@ -74,9 +71,7 @@ describe('Wunderground context provider', () => {
             });
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        expect(res.body)
-            .to.be.instanceOf(Array)
-            .with.lengthOf(1);
+        expect(res.body).to.be.instanceOf(Array).with.lengthOf(1);
         expect(res.body[0]).to.have.all.keys([
             'id',
             'type',
@@ -109,9 +104,7 @@ describe('Wunderground context provider', () => {
             });
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        expect(res.body)
-            .to.be.instanceOf(Array)
-            .with.lengthOf(1);
+        expect(res.body).to.be.instanceOf(Array).with.lengthOf(1);
         expect(res.body[0]).to.have.all.keys([
             'id',
             'type',
@@ -139,9 +132,7 @@ describe('Wunderground context provider', () => {
             });
         expect(res).to.have.status(200);
         expect(res).to.be.json;
-        expect(res.body)
-            .to.be.instanceOf(Array)
-            .with.lengthOf(1);
+        expect(res.body).to.be.instanceOf(Array).with.lengthOf(1);
         expect(res.body[0]).to.have.all.keys([
             'id',
             'type',
