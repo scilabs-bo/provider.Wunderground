@@ -1,12 +1,12 @@
 ### Build
-FROM node:12.14.1 as builder
+FROM node:12.16.1 as builder
 
 # Prepare build environment
 RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 
 # Install dependencies (with dev dependencies)
-COPY package.json /usr/src/app/package.json
+COPY package.json package-lock.json /usr/src/app/
 RUN npm install
 
 # Copy source files and build project
@@ -14,7 +14,7 @@ COPY . /usr/src/app
 RUN npm run build
 
 ### Production
-FROM node:12.14.1
+FROM node:12.16.1
 
 LABEL maintainer="Fabian Bäumer <fabian.baeumer@rub.de>"
 ENV NODE_ENV=production
@@ -24,7 +24,7 @@ RUN mkdir /usr/src/app
 WORKDIR /usr/src/app
 
 # Install dependencies (without dev dependencies)
-COPY package.json /usr/src/app/package.json
+COPY package.json package-lock.json /usr/src/app/
 RUN npm install
 
 # Copy compiled typescript from builder
